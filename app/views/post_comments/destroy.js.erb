@@ -1,0 +1,1 @@
+$('#comment_form_<%= @book.id %>').html("<%= j(render partial: 'layouts/comment', locals: {book: @book, post_comment: @post_comment_new}) %>");

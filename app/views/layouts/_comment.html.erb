@@ -1,0 +1,39 @@
+<div class="comment-list bt style-2" id="comments">
+            <div class="float-wrapper">
+                <h2 class="comment-count"><%= book.post_comments.count %>件コメント</h2>
+            </div>
+        </div>
+<ol>
+    <% book.post_comments.each do |post_comment| %>
+        <li class="comment">
+            <div class="comment-body bb">
+                <div class="comment-avatar">
+                    <div class="avatar">
+                        <%= link_to attachment_image_tag(post_comment.user, :profile_image,  format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg", size: '40x40'), user_path(post_comment.user) %>
+                    </div>
+                </div>
+                <div class="comment-text">
+                    <div class="comment-author clearfix">
+                        <a href="#" class="link-author"><%= link_to post_comment.user.name , user_path(post_comment.user) %></a>
+                        <span class="comment-meta">
+                          <span class="comment-date"><%= post_comment.created_at.strftime('%Y/%m/%d') %></span>
+                        </span>
+                    </div>
+                    <div class="comment-entry"><%= post_comment.comment %></div>
+                </div>
+                <% if post_comment.user == current_user %>
+                <%= link_to "削除", book_post_comments_path(id: post_comment, book_id: book), method: :delete, remote: true, class:'btn btn-danger' %>
+                <% end %>
+            </div>
+        </li>
+    <% end %>
+
+</ol>
+<%= form_for [book, post_comment], data: { remote: true } do |f| %>
+    <div class="row">
+        <div class="col-sm-12">
+            <%= f.text_area :comment, rows:'5', class: "form-control",placeholder: "コメントをここに" %>
+        </div>
+    </div>
+    <%= f.submit "送信する", class: "btn btn-lg btn-base-1 mt-20 pull-right" %>
+<% end %>

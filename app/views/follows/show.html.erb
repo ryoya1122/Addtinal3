@@ -1,0 +1,33 @@
+<div class="container">
+<div class="row">
+	<% if flash[:notice] %>
+	<p id=notice><%= flash[:notice] %></p>
+<% end %>
+<%= render 'layouts/userpage', {user: @user, book: @book} %>
+<div class="col-xs-9">
+	<h2>Follows</h2>
+<table class="table">
+	<thead>
+		<tr>
+			<th>image</th>
+			<th>name</th>
+			<th>フォロー</th>
+			<th>フォロワー</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @follows.each do |follow| %>
+		<tr>
+			<td><%= link_to attachment_image_tag(follow, :profile_image,  format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg", size: '40x40'), user_path(follow) %></td>
+			<td><%= follow.name %></td>
+			<td><%= follow.followings.count %></td>
+			<td><%= follow.followers.count %></td>
+			<td><%= link_to "Show", user_path(follow) %></td>
+		</tr>
+<% end %>
+	</tbody>
+</table>
+</div>
+</div>
+</div>

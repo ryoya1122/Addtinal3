@@ -13,6 +13,8 @@
 			<th></th>
 			<th>Title</th>
 			<th>Opinion</th>
+			<th>Favorite</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -21,6 +23,9 @@
 			<td><%= attachment_image_tag @user, :profile_image, :fill, 40, 40, format: 'jpeg', class: "img-circle pull-left profile-img tableimage", fallback: "no_image.jpg", size:'40x40' %></td>
 			<td><%= link_to book.title, book_path(book) %></td>
 			<td><%= book.body %></td>
+			<td><i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+      		<%= book.favorites.count %> いいね</td>
+      		<td>コメント数：<%= book.post_comments.count %></td>
 		</tr>
 	<% end %>
 	</tbody>

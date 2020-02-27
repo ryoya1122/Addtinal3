@@ -1,4 +1,3 @@
-
 <div class="container">
 <div class="row">
 	<% if flash[:notice] %>
@@ -32,4 +31,47 @@
 </table>
 </div>
 </div>
+<% if @user == current_user %>
+<div class="row">
+	<div class="col-xs-12">
+<div id='map'></div>
+
+<style>
+#map{
+  height: 400px;
+}
+</style>
+
+<script>
+
+let map
+let geocode
+
+function initMap(){
+  geocoder = new google.maps.Geocoder()
+
+  map = new google.maps.Map(document.getElementById('map'), {
+  center: {lat: -34.397, lng: 150.644},
+  zoom: 8
+  });
+
+  let Address = gon.address;
+
+  geocoder.geocode( { 'address': Address}, function(results, status) {
+    if (status == 'OK') {
+      map.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+          map: map,
+          position: results[0].geometry.location
+      });
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&callback=initMap" async defer></script>
+	</div>
+</div>
+<% end %>
 </div>

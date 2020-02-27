@@ -4,6 +4,9 @@ class UsersController < ApplicationController
 		@user = User.find(params[:id])
 		@books = @user.books.page(params[:page]).reverse_order
 		@book = Book.new
+		if @user == current_user
+			gon.address = @user.address_city + @user.address_street + @user.address_building
+		end
 	end
 	def index
 		@user = User.new
@@ -32,6 +35,6 @@ class UsersController < ApplicationController
 	end
 	private
 	def user_params
-    	params.require(:user).permit(:name, :profile_image, :introduction)
+    	params.require(:user).permit(:name, :profile_image, :introduction, :postcode, :prefecture_code, :address_city, :address_street, :address_building)
 	end
 end
